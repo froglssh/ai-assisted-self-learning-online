@@ -219,6 +219,25 @@
     </div>
   </div>
 
+  <!-- 範例體驗區 -->
+  <div class="studentbar" style="margin-top: 10px; background: var(--bg-soft, #f4f6f9); border: 1px dashed var(--line-strong, #c8d0dd); padding: 8px 12px; border-radius: 8px; display: flex; gap: 10px; align-items: center; width: 100%; box-sizing: border-box; flex-wrap: wrap;">
+    <span style="font-size: 0.85rem; color: var(--ink, #1f2733); font-weight: bold; white-space: nowrap;">快速示範：</span>
+    <select id="sampleSelect" style="flex: 1; min-width: 200px; padding: 5px 8px; font-size: 0.85rem; border-radius: 4px; border: 1px solid var(--line-strong, #c8d0dd); background: #ffffff;">
+      <option value="">-- 選擇自主學習計畫類型範例 --</option>
+      <option value="1">1. 延伸與預修課程 (有機化學預修)</option>
+      <option value="2">2. 課外閱讀 (自私的基因讀書計畫)</option>
+      <option value="3">3. 線上學習課程 (機器學習 Python 自學)</option>
+      <option value="4">4. 能力檢定 (APX 高中物理檢定培訓)</option>
+      <option value="5">5. 服務學習課程 (偏鄉科普營隊實踐)</option>
+      <option value="6">6. 培訓課程 (Arduino 物聯網創客培訓)</option>
+      <option value="7">7. 專題研討 (生物資訊序列比對分析)</option>
+    </select>
+    <div class="btns" style="display: flex; gap: 5px;">
+      <button type="button" class="btn sm" onclick="loadBuiltinSample()">一鍵填寫</button>
+      <button type="button" class="btn sub sm" onclick="downloadSampleWord()">下載 Word 檔</button>
+    </div>
+  </div>
+
   <!-- AI 設定 -->
   <details class="ai-settings" id="aiSettings">
     <summary>
@@ -513,6 +532,384 @@ function toast(msg){
   const t=$('toast');t.textContent=msg;t.classList.add('show');
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);
 }
+const BUILTIN_SAMPLES = {
+  "1": {
+    filename: "01_延伸與預修課程_有機化學預修.docx",
+    meta: {
+      studentName: "林自強",
+      className: "高二1班",
+      seatNo: "05",
+      projectTopic: "大學有機化學基礎概念自學與反應機制探究",
+      planName: "高中化學延伸——大學有機化學基礎預修與實驗探究",
+      detailTopic: "本計畫旨在延伸高中化學第三、四冊的內容，預修大學普通化學中的有機化學單元。重點包括有機分子的立體結構（對掌性）、官能基物理化學特性、SN1/SN2 親核取代反應機制，並在校內老師指導下進行基本的酯化與皂化實驗，以培養基礎學術研究能力。",
+      motivation: "在高二化學課中，我們學到了基本的有機官能基，但課本對於反應機制（反應物如何一步步變成產物）描述較少。我未來希望申請化學系或藥學系，因此希望利用自主學習時間主動挑戰大學端的課程，打下紮實的學理基礎，並透過實作驗證理論。",
+      resources: "1. 《Zumdahl's Chemistry》大學普通化學教科書\n2. Khan Academy 線上有機化學單元影片\n3. 麗山高中化學實驗室藥品與設備（冰醋酸、乙醇、濃硫酸、分液漏斗）\n4. 化學科指導老師李老師的每週諮詢與安全指導",
+      methods: "1. **文獻閱讀**：每週研讀 Zumdahl 教科書對應章節，並手寫反應機制步驟。\n2. **線上自學**：搭配 Khan Academy 影片釐清空間結構（R/S 構型）。\n3. **動手實作**：在第 13-15 週於實驗室進行乙酸乙酯酯化實驗，撰寫實驗報告。\n4. **成果整理**：將 18 週的手寫筆記、實驗記錄與反思整理成 PDF 檔案。",
+      goals: "1. 完成一份有機化學 18 週自主學習成果筆記（包含至少 15 個反應機制推導圖）。\n2. 在符合實驗室安全規範下，完成乙酸乙酯合成實驗，並產出一份完整的實驗成果報告。\n3. 繪製 5 張有機官能基反應心智圖，在成果發表會上以簡報展示自學成果。",
+      parentFeedback: "自強非常有求知慾，能主動安排難度較高的大學化學預修，並有計畫地安排閱讀與實驗。希望他在動手做實驗時，務必嚴格遵守安全規範，並從中培養嚴謹的科學態度。家長全力支持！",
+      parentSign: "林大榮",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "1",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["網頁/簡報/影片", "成果報告書", "實作作品/模型"]
+    },
+    schedule: [
+      { content: "IUPAC 命名與烷烴結構：研讀 Zumdahl 第22章烷烴與環烷烴的命名法，練習結構式畫法", check: "A" },
+      { content: "環烷烴與椅型構型能量分析：探討立體張力與能量分佈", check: "A" },
+      { content: "對掌性與對掌異構物概念：學習立體化學中的手性（Chirality）與鏡像對稱特性", check: "A" },
+      { content: "R/S 命名系統與 Fischer 投影式：學習優先順序規則，判定 R/S 構型", check: "A" },
+      { content: "鹵烷的結構與物理性質：研讀鹵烷的極性、沸點、親電性碳原子特徵", check: "A" },
+      { content: "親核取代反應 SN2 機制：研究單步協同反應機制 SN2，探討過渡態與立體化學逆轉", check: "B" },
+      { content: "親核取代反應 SN1 機制：研究兩步驟反應機制 SN1，探討碳陽離子中間體與外消旋化", check: "B" },
+      { content: "碳陽離子穩定度與重排反應：探討一級、二級、三級碳陽離子的穩定性與甲基/氫移轉重排", check: "B" },
+      { content: "消除反應 E1/E2 機制：研究親核取代反應的競爭反應——消除反應的機制與薩伊采夫法則", check: "A" },
+      { content: "烯烴親電加成反應 (I)：學習烯烴與鹵化氫的加成反應，研究 Markovnikov 法則的學理依據", check: "A" },
+      { content: "烯烴親電加成反應 (II)：探討烯烴的水合反應（酸催化、羥汞化-去汞化反應）", check: "A" },
+      { content: "醇類的合成與酯化反應學理：探討醇與羧酸在酸催化下的費雪酯化反應機制（Fisher Esterification）", check: "A" },
+      { content: "乙酸乙酯實驗：設計與儀器架設：在李老師指導下，設計乙酸乙酯合成步驟，架設回流加熱與蒸餾裝置", check: "B" },
+      { content: "乙酸乙酯實驗：合成與洗滌分離：進行乙酸與乙醇的回流反應，並用分液漏斗以 Na2CO3 洗滌分離", check: "B" },
+      { content: "乙酸乙酯實驗：精製蒸餾與產率計算：利用簡單蒸餾裝置收集 77-78 度的餾分，計算實驗產率", check: "A" },
+      { content: "自主學習成果整理：整理 18 週以來的筆記、實驗記錄與照片，開始編排成果報告書", check: "A" },
+      { content: "成果投影片製作與報告修飾：將成果整理成發表投影片，重點凸顯 SN1/SN2 機制與酯化實驗成果", check: "A" },
+      { content: "自主學習成果分享與反思：參與校內自主學習發表會，進行口頭簡報，撰寫學習反思", check: "A" }
+    ],
+    effect: [
+      { effect: "實際進度：掌握了烷烴和環烷烴的命名規則，對異構物有了初步了解。能獨立畫出 C6H14 所有異構物的結構式並正確命名。" },
+      { effect: "實際進度：學會使用球棍模型組裝椅型構型，理解取代基在平伏鍵（e鍵）與直立鍵（a鍵）的能量張力。" },
+      { effect: "實際進度：理解不對稱碳原子的定義，並學會辨識分子是否具有手性。能以偏振光旋光性解釋對掌分子的物理性質差異。" },
+      { effect: "實際進度：能正確判讀 Fischer 投影式中多個手性中心的 R/S 構型，完成 15 題手性中心構型判讀練習。" },
+      { effect: "實際進度：理解碳鹵鍵的極性使其容易發生親核取代反應，繪製鹵烷分子靜電勢能分佈圖，標示親電中心。" },
+      { effect: "實際進度：理解 SN2 反應為二級速率，且會發生瓦爾登反轉，推導出反應速率方程式，並手繪過渡態能量圖。" },
+      { effect: "實際進度：理解 SN1 為一級速率，且會產生外消旋混合物，比較了 SN1 與 SN2 機制的差異。" },
+      { effect: "實際進度：理解超共軛效應如何穩定碳陽離子，並推導重排機制。成功推導出 2-甲基-2-丁醇脫水反應中的重排過渡態。" },
+      { effect: "實際進度：理解消除反應生成最穩定烯烴的傾向，能預測鹵烷在不同鹼性試劑下的取代與消除產物比例。" },
+      { effect: "實際進度：理解加成反應中，質子會加在含氫較多的碳上以生成穩定碳陽離子。畫出丙烯與 HCl 加成反應的完整機制圖。" },
+      { effect: "實際進度：探討了烯烴的水合反應，整理出三種不同加成水合反應的試劑、產物與重排特性對照表。" },
+      { effect: "實際進度：理解費雪酯化反應是可逆的，且水分子來自羧酸的羥基與醇的氫。詳細推導並手繪反應的七個基元步驟。" },
+      { effect: "實際進度：在李老師指導下，設計乙酸乙酯合成步驟，架設回流加熱與蒸餾裝置，完成實驗安全評估。" },
+      { effect: "實際進度：成功操作分液漏斗進行酸鹼中和與層洗，去除未反應的醋酸，收集粗製的乙酸乙酯。" },
+      { effect: "實際進度：利用簡單蒸餾裝置收集 77-78 度的餾分，精製出純淨的乙酸乙酯，計算出實驗產率為 62%。" },
+      { effect: "實際進度：整理 18 週以來的筆記、實驗記錄與照片，完成包含摘要、原理、實驗步驟、結果與討論的成果報告草稿。" },
+      { effect: "實際進度：完成口頭發表簡報製作，修飾報告用詞與排版，重點凸顯 SN1/SN2 機制與酯化實驗成果。" },
+      { effect: "實際進度：順利完成口頭簡報，進行自我反思，理解自己在實驗操作與時間管理的成長，並對未來化學學習更有信心。" }
+    ]
+  },
+  "2": {
+    filename: "02_課外閱讀_自私的基因讀書計畫.docx",
+    meta: {
+      studentName: "張閱讀",
+      className: "高二2班",
+      seatNo: "12",
+      projectTopic: "經典科普《自私的基因》深度閱讀與演化行為分析",
+      planName: "經典科普閱讀——從《自私的基因》探討演化生物學與行為學",
+      detailTopic: "本自主學習計畫專注於經典科普書《自私的基因》的深度閱讀。計畫在18週內閱讀全書13章，探究基因中心演化觀點、利他行為的演化機制、囚徒困境與演化穩定策略（ESS），並結合生物學案例撰寫讀書報告。",
+      motivation: "我對動物行為與生態演化一直抱持高度好奇。傳統上我們認為物種演化是為了群體利益，但本書卻提出「個體只是基因的生存機器」這一震撼觀點。我希望透過這本書，學習從微觀 of 基因視角來重新審視宏觀的動物行為與社會文化演變。",
+      resources: "1. 《自私的基因》（理查·道金斯著，30週年中文版）\n2. 線上學術資料庫（Google Scholar）查詢相關演化生物學論文\n3. 麗山高中生物科蔡老師的指導與提問解答",
+      methods: "1. **規律閱讀**：每週固定閱讀 1-2 章，並摘錄關鍵概念與專有名詞。\n2. **概念繪製**：針對「利他行為」、「ESS 策略」等核心概念繪製心智圖。\n3. **個案研究**：尋找自然界中的動物行為（如工蜂奉獻、鳥類警報聲），嘗試用基因自私理論解釋。\n4. **撰寫論文**：將閱讀心得整理成一份 3000 字的讀書報告（小論文）。",
+      goals: "1. 完成 13 章的深度讀書筆記，每章包含至少 300 字摘要與反思。\n2. 繪製 4 張核心概念心智圖（複製者、ESS 策略、利他行為、文化迷因）。\n3. 撰寫一篇以「自私基因視角下的動物利他行為分析」為題的讀書報告。",
+      parentFeedback: "閱讀經典名著能拓寬視野，激發思辨能力。看著孩子每週認真做筆記，並跟我們討論基因與利他的哲學問題，覺得非常欣慰。這是一次很有深度的自主學習。",
+      parentSign: "張書明",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "2",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["成果報告書", "網頁/簡報/影片"]
+    },
+    schedule: [
+      { content: "導讀與閱讀計畫準備：閱讀譯者序言與導言，設定每週閱讀目標，準備記錄工具", check: "A" },
+      { content: "第一章：為什麼會有人類？：研讀第一章，探究利他與自私行為的定義，理解群體選擇說的謬誤", check: "A" },
+      { content: "第二章：複製者：探究生命的起源與複製者（Replicators）的誕生過程", check: "A" },
+      { content: "第三章：不朽的雙螺旋：探究基因的分子性質，理解染色體交叉與天擇的最小單位", check: "A" },
+      { content: "第四章：基因機器：研究基因如何控制大腦與神經系統，從而間接控制個體行為", check: "A" },
+      { content: "第五章：進犯行為與穩定策略：探究 Maynard Smith 的「演化穩定策略」(ESS) 概念與鷹鴿賽局", check: "B" },
+      { content: "第六章：基因體與親緣選擇：學習 Hamilton 的親緣關係指數 (r) 與親緣選擇學說", check: "A" },
+      { content: "第七章：計畫生育：探究個體在繁殖數量與撫育後代之間的資源分配爭奪", check: "B" },
+      { content: "第八章：代溝與世代衝突：探究父母與子女之間的利益衝突，以及基因的自私本質", check: "A" },
+      { content: "第九章：兩性戰爭：探究雌雄個體在配偶選擇、配子投資與育幼責任的博弈", check: "A" },
+      { content: "第十章：你幫我，我幫你：探究群居動物的互惠利他（Reciprocal Altruism）與清潔魚案例", check: "A" },
+      { content: "第十一章：迷因：新的複製者：探究文化傳遞的單位——迷因 (Meme) 的定義與複製機制", check: "A" },
+      { content: "第十二章：好人終有好報：探究「合作」在演化上的優勢，分析重複囚徒困境賽局", check: "A" },
+      { content: "第十三章：延伸的表現型：探究物種外部特徵與寄生生物的基因表現型", check: "A" },
+      { content: "小論文大綱撰寫與資料檢索：檢索 Google Scholar 有關「互惠利他」與「賽局理論」在生物學應用的論文", check: "A" },
+      { content: "小論文初稿撰寫：撰寫「自私基因視角下的動物行為分析」小論文，整理前13章的觀點", check: "B" },
+      { content: "報告修改與心智圖繪製：請蔡老師審閱報告並提出修改意見，精細繪製 4 張核心概念心智圖", check: "A" },
+      { content: "成果發表與總結反思：在班上進行讀書報告分享，聆聽同學回饋，完成自主學習反思表", check: "A" }
+    ],
+    effect: [
+      { effect: "實際進度：完成閱讀時程規劃，掌握演化學「神創論、拉馬克、達爾文」背景知識。了解本書的寫作背景。" },
+      { effect: "實際進度：理解道金斯定義的「自私」是指基因的行為效果。能以數學模型說明群體選擇說的謬誤。" },
+      { effect: "實際進度：理解在原始湯中，具備高壽命、複製快、精確度高的複製者能勝出，理解 DNA 的演化歷程。" },
+      { effect: "實際進度：明白個體和物種是暫時的，只有基因是能長久流傳的不朽個體。掌握天擇篩選的最小片段概念。" },
+      { effect: "實際進度：理解基因像程式設計師，大腦是即時執行的電腦。以蜜蜂的清理行為基因說明行為由基因調控。" },
+      { effect: "實際進度：理解「鷹鴿賽局」模型中，沒有單一策略是絕對最佳的。計算出特定收益下的平衡點（ESS）。" },
+      { effect: "實際進度：理解基因利他條件：r*B > C。計算出父母、手足之間的親緣指數，並解釋利他行為。" },
+      { effect: "實際進度：理解動物控制生育數量是為了極大化存活的後代數。用拉克常數解釋鳥類產卵的最適策略。" },
+      { effect: "實際進度：理解父母對後代投資分配與子女索取資源的矛盾。分析母嬰基因利益的對立面。" },
+      { effect: "實際進度：理解「家庭幸福策略」與「大丈夫策略」在兩性演化中的動態平衡，分析兩性配子不對稱性。" },
+      { effect: "實際進度：理解互惠利他前提是個體能互相識別且有長期互動。以吸血蝙蝠分食為例，分析演化條件。" },
+      { effect: "實際進度：理解迷因如同基因，也是透過模仿進行複製。分析宗教與網路迷因的傳播特性。" },
+      { effect: "實際進度：分析重複囚徒困境，說明「以牙還牙」(TFT) 策略如何展現善良與寬容而勝出。" },
+      { effect: "實際進度：理解石蠶蛾的石套、寄生蟲對宿主行為的控制都是基因的延伸表現型，撰寫分析小節。" },
+      { effect: "實際進度：收集至少 3 篇學術文獻，完成讀書報告大綱，確立引用格式與文獻探討架構。" },
+      { effect: "實際進度：完成 2000 字初稿，將生物學案例（如工蟻、吸血蝙蝠）與自私基因理論緊密結合。" },
+      { effect: "實際進度：根據老師建議強化了「文化迷因」與「親緣選擇」的論證邏輯。修改完成 3000 字讀書小論文。" },
+      { effect: "實際進度：順利完成 10 分鐘口頭簡報，獲得師長正面評價，提升了科普閱讀與思辨能力。" }
+    ]
+  },
+  "3": {
+    filename: "03_線上學習課程_機器學習Python自學.docx",
+    meta: {
+      studentName: "李線上",
+      className: "高二3班",
+      seatNo: "21",
+      projectTopic: "Coursera 機器學習線上課程與 Python 程式實作",
+      planName: "Coursera 線上自學——機器學習與資料科學基礎 (Python)",
+      detailTopic: "本自主學習計畫選修 Coursera 平台由吳恩達教授開設的《Machine Learning Specialization》第一模組（Supervised Machine Learning）。學習內容包括線性回歸、邏輯回歸、梯度下降演算法的數學原理，並使用 Python (NumPy, Pandas, Scikit-learn) 在 Google Colab 上進行實作與模型評估。",
+      motivation: "人工智慧與機器學習在現今科技發展中扮演核心角色。我未來想申請資訊工程學系，雖然在高中學過簡單的 Python 語法，但想更進一步探究機器學習背後的數學矩陣與統計原理，而非僅僅調用現成的 AI 工具。透過這個線上課程，我希望能同時提升數學理論與程式實作能力。",
+      resources: "1. Coursera 《Supervised Machine Learning: Regression and Classification》線上課程\n2. Google Colab 線上 Jupyter Notebook 開發環境\n3. Python 機器學習套件（NumPy、Pandas、Matplotlib、Scikit-learn）\n4. 學校資訊科陳老師的線上答疑與代碼除錯建議",
+      methods: "1. **影音學習**：每週觀看 Coursera 線上課程影片，撰寫數學公式推導筆記。\n2. **代碼實作**：在 Google Colab 上手工編寫線性回歸與梯度下降演算法，並使用 Scikit-learn 套件進行對照。\n3. **習題挑戰**：完成每週課程後的線上概念測驗與編程作業。\n4. **專題實踐**：利用 Kaggle 公開數據集（如房價預測）進行模型訓練與預測成果整理。",
+      goals: "1. 獲得 Coursera《Supervised Machine Learning》線上課程修課證明。\n2. 完成 5 個 Google Colab 實作 Notebook（線性回歸、梯度下降、多變數回歸、邏輯回歸、正規化）。\n3. 使用 Kaggle 真實數據集，建立一個預測準確率達 85% 以上的監督式學習模型。",
+      parentFeedback: "線上學習非常考驗孩子的自律與時間規劃。看著孩子每週堅持聽英文授課、推導複雜的數學公式並敲代碼，覺得孩子長大也更成熟了。期盼孩子未來能在資訊領域持續鑽研。",
+      parentSign: "李明華",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "3",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["檢定證照", "實作作品/模型", "網頁/簡報/影片"]
+    },
+    schedule: [
+      { content: "課程環境準備與基礎 Python 複習：註冊 Coursera 課程，設定 Google Colab 開發環境", check: "A" },
+      { content: "單變數線性回歸理論：學習單變數線性回歸的模型定義（f_wb = wx + b）與預測邏輯", check: "A" },
+      { content: "代價函數 (Cost Function) 原理：學習均方誤差（MSE）代價函數與 3D 能量圖", check: "A" },
+      { content: "梯度下降 (Gradient Descent) 演算法：學習梯度下降更新公式與偏微分的作用", check: "A" },
+      { content: "梯度下降代碼實作：在 Google Colab 上以純 Python 實作梯度下降，訓練單變數模型", check: "B" },
+      { content: "多變數線性回歸與向量化：將模型延伸 to 多個特徵，學習向量化運算提升執行效率", check: "B" },
+      { content: "特徵縮放 (Feature Scaling) 的必要性：學習特徵縮放的方法（標準化、正規化）", check: "A" },
+      { content: "學習率探討與多變數回歸實作：測試不同的學習率（0.001, 0.01, 0.1）並分析收斂", check: "A" },
+      { content: "多項式回歸與非線性擬合：學習如何透過特徵工程建立多項式特徵", check: "A" },
+      { content: "使用 Scikit-learn 實現線性回歸：學習調用 Scikit-learn 套件進行模型訓練", check: "A" },
+      { content: "分類問題與邏輯回歸 (Logistic Regression)：引入 Sigmoid 函數將預測值映射到 0 到 1 之間", check: "A" },
+      { content: "邏輯回歸的代價函數（交叉熵）：學習邏輯回歸的交叉熵代價函數公式", check: "B" },
+      { content: "邏輯回歸代碼實作：使用 Scikit-learn 中的 LogisticRegression 類別進行二分類訓練", check: "A" },
+      { content: "過擬合 (Overfitting) 與欠擬合 (Underfitting)：探討高變異或高偏差問題", check: "A" },
+      { content: "正規化 (Regularization) 消除過擬合：學習 L2 正規化（Ridge）與 L1 正規化（Lasso）", check: "B" },
+      { content: "Kaggle 真實數據實戰：房價預測（一）：下載 Kaggle 數據集，進行決策值填補與特徵處理", check: "B" },
+      { content: "Kaggle 真實數據實戰：房價預測（二）：使用回歸模型進行訓練，調整超參數，評估預測", check: "A" },
+      { content: "線上課程證書取得與成果報告彙整：完成所有作業，下載修課證明，彙整成果報告", check: "A" }
+    ],
+    effect: [
+      { effect: "實際進度：熟悉 Colab 操作，掌握 NumPy 的向量化（Vectorization）運算，學會矩陣乘法。" },
+      { effect: "實際進度：理解權重 w 與偏差 b 的物理意義，以及它們如何決定擬合直線。寫出線性回歸數學式。" },
+      { effect: "實際進度：理解代價函數是用來衡量預測值與真實值之間的差距，能手動計算 J(w,b) 並繪製等高線圖。" },
+      { effect: "實際進度：推導出權重 w 與偏差 b 的偏微分項，理解局部最小值概念，掌握學習率選取原則。" },
+      { effect: "實際進度：解決了學習率過大導致代價函數發散的 bug，自製梯度下降代價函數穩定下降。" },
+      { effect: "實際進度：將梯度下降代碼改寫為矩陣向量化形式，代碼量減少 70%，利用 CPU 並行加速。" },
+      { effect: "實際進度：實作特徵縮放代碼，將房價與房間數特徵縮放到相同範圍，理解其對收斂速度的影響。" },
+      { effect: "實際進度：找出最適合該數據集的最佳學習率，使模型在 100 次迭代內收斂，完成多特徵房價預測訓練。" },
+      { effect: "實際進度：使用二次與三次特徵擬合非線性曲線，觀察擬合效果並探討其數學原理。" },
+      { effect: "實際進度：使用 Scikit-learn 線性回歸預測測試集，並計算 R2 分數為 0.82，掌握基本工作流程。" },
+      { effect: "實際進度：理解邏輯回歸是用於二分類的演算法。推導邏輯回歸決策邊界（Decision Boundary）的原理。" },
+      { effect: "實際進度：理解交叉熵代價函數公式，明白為什麼分類問題不能用均方誤差（MSE）作為代價函數。" },
+      { effect: "實際進度：成功訓練一個二分類器預測腫瘤是良性或惡性，準確率達 92%，使用混淆矩陣進行評估。" },
+      { effect: "實際進度：理解過擬合（記住雜訊）與欠擬合（沒學到特徵）的成因，繪製擬合狀態對比心智圖。" },
+      { effect: "實際進度：在代價函數中加入正規化項（lambda），限制權重大小，成功解決線性回歸模型的過擬合問題。" },
+      { effect: "實際進度：完成資料前處理，包括缺失值填補、One-Hot 編碼轉換等，建立資料處理 Pipeline。" },
+      { effect: "實際進度：完成 Kaggle 專題預測，計算測試集 R2 值為 0.87，在測試集上達到預期準確度。" },
+      { effect: "實際進度：取得 Coursera 課程證書，完成 15 頁自學報告，掌握了監督式學習理論與實作。" }
+    ]
+  },
+  "4": {
+    filename: "04_能力檢定_APX高中物理檢定培訓.docx",
+    meta: {
+      studentName: "陳檢定",
+      className: "高二4班",
+      seatNo: "08",
+      projectTopic: "APX 高中物理中高級能力檢定自學與考照培訓",
+      planName: "APX 全國高中物理能力檢定中高級培訓與歷屆試題實作",
+      detailTopic: "本計畫針對 APX 全國高中數理能力檢定（物理科中高級）進行系統化複習與解題練習。內容涵載高中物理必修與選修物理（力學、熱學、波動與光學），並透過近五年歷屆試題進行模擬測試與錯題分析。",
+      motivation: "我對物理探究非常熱愛，希望在高中階段挑戰難度高於學測的檢定考試，證明自己的數理邏輯思維與學術能力。這項自主學習計畫能強迫我提早預習選修物理，並透過歷屆試題檢視自己的學習成效。",
+      resources: "1. 《大學物理學精要》、選修物理課本\n2. APX 官方網站歷屆試題（108-112年）\n3. 物理科指導老師張老師的週五錯題諮詢",
+      methods: "1. **單元複習**：前 10 週依力學、電磁學等單元系統化研讀公式與物理觀念。\n2. **試題模擬**：第 11-15 週進行歷屆試題計時測驗，分析時間分配。\n3. **錯題分析**：整理錯題本，推導正確物理機制。\n4. **考前衝刺**：加強弱點單元，進行最終模擬。",
+      goals: "1. 彙整出一本包含 5 大物理單元核心公式與觀念的「APX 物理複習秘笈」。\n2. 完成 5 年份 APX 歷屆試題，平均模擬分數達到 75 分以上（中高級優良標準）。\n3. 建立一本「物理錯題本」，詳細推導並釐清至少 50 題經典錯題的物理意義。",
+      parentFeedback: "設定明確的檢定目標能激發學習動力。看到孩子面對難題不放棄，主動尋求資源並整理錯題，這種面對挑戰的毅力值得讚賞。祝福他順利通過檢定！",
+      parentSign: "陳國棟",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "4",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["檢定證照", "成果報告書"]
+    }
+  },
+  "5": {
+    filename: "05_服務學習課程_偏鄉科普營隊實踐.docx",
+    meta: {
+      studentName: "林服務",
+      className: "高二5班",
+      seatNo: "15",
+      projectTopic: "偏鄉小學一日科普營與自製教具實踐計畫",
+      planName: "偏鄉小學一日科普營隊——教案設計與教學服務實踐",
+      detailTopic: "本自主學習計畫為小組學習。計畫在 18 週內，設計一套適合偏鄉小學生（中年級）的「生活物理與化學」一日科普營隊教案。重點包括自製教具（如空氣砲、非牛頓流體、養樂多電話）、撰寫科普教材、進行教學模擬演練，並於第 16 週前往偏鄉小學進行服務實踐，回饋社會。",
+      motivation: "我們小組成員都對自然科學非常有興趣，平時在麗山高中接受了豐富的探究實作訓練。我們希望能將所學的科學知識轉化為具體的服務行動，透過簡單、有趣的實驗設計，帶給偏鄉資源較匱乏的小學生一堂好玩的科學課，點燃他們對科學的好奇心。",
+      resources: "1. 麗山高中生活科技教室之工具與材料（寶特瓶、氣球、太白粉、紙杯）\n2. 國小自然領域教科書（了解小學生認知水平）\n3. 麗山高中服務學習輔導老師廖老師的教案設計指導與遊覽交通協助\n4. 服務對象：新北市偏鄉某小學三年級學生 25 位",
+      methods: "1. **教案設計**：前 6 週蒐集適合小學生的科普實驗，撰寫 3 套實驗教案（空氣砲、非牛頓流體、聲音傳播）。\n2. **教具製作與測試**：第 7-10 週利用廢棄材料製作空氣砲等教具，測試實驗效果與安全性。\n3. **試教演練**：第 11-14 週在校內進行組員互評試教，調整說話語速與引導方式。\n4. **服務實踐與回饋**：第 15-18 週進行一日營隊教學，收集小學生回饋並撰寫服務反思報告。",
+      goals: "1. 完成 3 套完整的科普營教案設計（包含學習單與詳細實驗步驟）。\n2. 帶領小組製作 30 組空氣砲與養樂多電話實體教具，保證實驗安全。\n3. 前往目標小學完成一日營隊服務，獲得小學生 90% 以上滿意度回饋，並整理成服務成果集。",
+      parentFeedback: "利用自身科學專長進行偏鄉服務是非常有意義的自主學習。孩子們從教案設計到教具製作都分工合作，不僅學會了科學傳播，更培養了社會關懷的胸懷，值得大力肯定！",
+      parentSign: "林志明",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "5",
+      impl: "小組學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["實作作品/模型", "成果報告書", "網頁/簡報/影片"]
+    }
+  },
+  "6": {
+    filename: "06_培訓課程_Arduino物聯網創客培訓.docx",
+    meta: {
+      studentName: "林創客",
+      className: "高二6班",
+      seatNo: "28",
+      projectTopic: "Arduino 創客培訓與智慧溫室原型設計",
+      planName: "Arduino 智慧物聯網 (IoT) 創客培訓與自造實務課程",
+      detailTopic: "本計畫修讀線上與線下相結合的 Arduino 創客培訓課程。內容包括電子電路基礎、Arduino C 語言程式設計、感測器應用（DHT11溫濕度、光敏電阻、超音波），並最終自造出一個「智慧溫室溫濕度自動監控與排風系統」硬體原型。",
+      motivation: "我對手作創客與物聯網非常有興趣，未來想申請電機工程或機械工程學系。透過這次自主學習，我希望能將課堂上的物理電路知識與寫程式結合，學會使用程式控制硬體，並動手打造一個能解決實際生活問題的智慧系統原型。",
+      resources: "1. Arduino Uno 開發板、各種電子元件材料包（感測器、麵包板、跳線、伺服馬達）\n2. 線上開源培訓課程（葉難的 Arduino 基礎教學、網頁開源代碼）\n3. 學校生活科技教室的焊槍、3D列印機與木工設備\n4. 指導老師林老師的電路圖檢視與安全防護指導",
+      methods: "1. **基礎概念奠定**：前 5 週學習電子電路與 Arduino IDE 基本編寫語法。\n2. **感測器專題**：第 6-10 週依序實作 LED 燈調光、溫濕度讀取、LCD 螢幕顯示等單元。\n3. **系統整合設計**：第 11-14 週架構智慧溫室電路，設計當溫度超過 28 度時自動啟動排風扇與蜂鳴器警報。\n4. **原型製造與測試**：第 15-18 週用 3D 列印與雷切製作外殼，進行硬體組裝與偵錯。",
+      goals: "1. 完成 10 個 Arduino 基礎感測器電路與代碼練習，並做成自學紀錄筆記。\n2. 自造一個「智慧溫室溫濕度排風硬體原型」，系統能穩定運作 24 小時無當機。\n3. 撰寫一份包含電路接線圖、程式碼說明與功能測試的 12 頁創客成果報告書。",
+      parentFeedback: "自動化大棚設計實用又有趣。看著孩子自己焊板子、搭框架、寫控制邏輯，能把科學知識活用，身為家長非常高興，十分支持他的探索！",
+      parentSign: "林金城",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "6",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: [],
+      presentForm: ["實作作品/模型", "成果報告書"]
+    }
+  },
+  "7": {
+    filename: "07_專題研討_生物資訊序列比對分析.docx",
+    meta: {
+      studentName: "林專題",
+      className: "高二7班",
+      seatNo: "32",
+      projectTopic: "生物資訊專題：Python 基因序列比對自學與探究",
+      planName: "生物資訊專題——使用 Python 進行基因序列比對與親緣關係分析",
+      detailTopic: "本自主學習計畫結合生物學與資訊科學（專題研討領域：生物、資訊）。計畫在 18 週內，學習生物資訊學基礎，掌握 DNA 序列比對演算法（Needleman-Wunsch 全域比對），並自學 Python 的 BioPython 函式庫，對不同物種的細胞色素 c 基因序列進行比對，繪製系統發生樹以分析演化親緣關係。",
+      motivation: "我對生命科學的演化機制與資訊科學的演算法都極感興趣。麗山高中非常鼓勵跨領域的專題研究，我希望跳脫傳統生物學只能做濕實驗的限制，利用乾實驗的計算機生物學方法，自己寫 Python 程式來比對真實基因數據，探究生命的演化密碼。",
+      resources: "1. NCBI（美國國家生物技術資訊中心）公開基因數據庫（GenBank）\n2. Python 開發環境（Jupyter Notebook）與 BioPython 生物資訊套件\n3. 生物資訊開源教材（Bioinformatics Algorithms, Compeau & Pevzner）\n4. 生物科蔡老師與資訊科陳老師的跨學科共同指導",
+      methods: "1. **基礎概念建立**：前 5 週研讀生物資訊學基本原理，學習基因序列的FASTA格式與矩陣對齊概念。\n2. **演算法推導與實作**：第 6-10 週手寫推導並用 Python 實作 Needleman-Wunsch 全域比對演算法。\n3. **真實基因數據獲取**：第 11-13 週從 NCBI 下載 8 個物種的 Cytochrome c 基因序列。\n4. **序列比對與系統樹繪製**：第 14-18 週使用 BioPython 進行多序列比對（MSA），使用 UPGMA 演算法繪製親緣關係樹，撰寫專題研究報告。",
+      goals: "1. 手寫推導並用 Python 純手工實作一個 Needleman-Wunsch 雙序列比對演算法程式。\n2. 從 NCBI 成功下載並處理 8 個不同物種的細胞色素 c 基因序列 FASTA 檔案。\n3. 對這 8 個物種進行多序列比對，繪製出一張符合生物演化常理的系統發生樹，完成 15 頁專題小論文。",
+      parentFeedback: "跨領域的生物資訊研究非常有挑戰性，結合了生物演化學與資訊演算法。看到孩子能自主規劃、自學大學階段的生物資訊學，並寫程式解決複雜計算，其探究精神讓我們感到非常驕傲！",
+      parentSign: "林正雄",
+      startDate: "2026-09-07"
+    },
+    radios: {
+      ptype: "7",
+      impl: "個人學習"
+    },
+    checks: {
+      subjects: ["生物", "資訊"],
+      presentForm: ["成果報告書", "實作作品/模型", "網頁/簡報/影片"]
+    }
+  }
+};
+
+function loadBuiltinSample() {
+  const val = $('sampleSelect').value;
+  if (!val) {
+    toast("請先選擇一個計畫範例");
+    return;
+  }
+  const rawSample = BUILTIN_SAMPLES[val];
+  if (!rawSample) return;
+
+  const sample = JSON.parse(JSON.stringify(rawSample));
+  const wCount = 18;
+  sample.meta.weeks = wCount;
+
+  if (!sample.schedule || sample.schedule.length === 0) {
+    sample.schedule = [];
+    for (let i = 1; i <= wCount; i++) {
+      let content = `第 ${i} 週進度：研讀計畫對應章節與核心觀念`;
+      if (val === '4') {
+        const topics = ["APX複習計畫與環境建立", "運動學核心公式與拋體運動", "牛頓運動定律與系統受力", "功與能量守恆定律", "動量守恆與碰撞問題", "圓周運動與簡諧運動", "萬有引力與克卜勒行星定律", "靜電學與庫倫定律", "直流電路與電磁學", "電流磁效應與電磁感應", "108年歷屆試題模擬與錯題檢討", "109年歷屆試題計時測驗", "110年歷屆試題模擬", "111年歷屆試題與難題挑戰", "112年歷屆試題綜合衝刺", "考前公式本與重點整理", "參加APX物理科中高級檢定考試", "成果報告書撰寫與反思"];
+        content = topics[i-1] || content;
+      } else if (val === '5') {
+        const topics = ["準備工作與團隊分工", "國小自然教材分析與難度定位", "教案一設計：空氣的威力(空氣砲)", "教案二設計：神奇的非牛頓流體", "教案三設計：聲音拉拉手(傳音電話)", "一日科普營隊活動流程規劃", "教具製作與材料準備(空氣砲)", "教具製作與材料準備(聲音電話)", "營隊名牌與科學學習單排版印製", "校內第一次模擬試教與組員互評", "校內第二次模擬試教與秩序控制", "校內第三次模擬試教與安全演練", "整體流程總預演與物資清點", "前往偏鄉小學進行場地佈置", "正式舉辦一日科普營隊教學服務", "營隊問卷滿意度與學習單分析", "小組檢討會與成果報告撰寫", "校內自主學習發表會與成果分享"];
+        content = topics[i-1] || content;
+      } else if (val === '6') {
+        const topics = ["電子電路與 IDE 開發環境", "類比輸出與呼吸燈控制", "數位輸入與按鍵消抖電路", "類比輸入與光敏電阻分壓電路", "DHT11 溫濕度讀取實作", "伺服馬達精確角度控制", "超音波感測器距離量測", "I2C LCD 顯示器文字輸出", "繼電器控制 12V 排風扇", "蜂鳴器警報聲調頻設計", "智慧溫室電路佈線與架構設計", "主控制程式編寫與邏輯整合", "系統功能聯調與吹風機加熱測試", "溫室外殼 3D 模型建立與尺寸測量", "雷射切割木底座與3D列印配件", "實體裝配與電路板銲接", "24小時系統穩定度測試與故障排除", "創客成果報告書撰寫與發表"];
+        content = topics[i-1] || content;
+      } else if (val === '7') {
+        const topics = ["生物資訊簡介與NCBI資料庫搜尋", "DNA 序列與分子演化分子鐘基礎", "序列比對概念與點矩陣法視覺化", "動態規劃演算法與LCS問題探究", "Needleman-Wunsch 演算法公式推導", "N-W 演算法手動 6x6 得分矩陣計算", "Python實作N-W演算法初始化", "Python實作N-W演算法填表與回溯", "演算法正確性測試與速度對照", "Smith-Waterman區域比對演算法探究", "NCBI細胞色素c基因序列下載", "BioPython 套件自學與FASTA讀取", "ClustalW 多序列比對(MSA)執行", "演化距離矩陣計算與分析", "UPGMA演算法與系統發生樹繪製", "專題小論文撰寫：原理與方法", "專題小論文撰寫：結果與討論", "專題展示發表與自主學習反思"];
+        content = topics[i-1] || content;
+      }
+      sample.schedule.push({
+        content: content,
+        check: (i % 5 === 0) ? "B" : "A",
+        teacher: ""
+      });
+    }
+  }
+
+  if (!sample.effect || sample.effect.length === 0) {
+    sample.effect = [];
+    for (let i = 1; i <= wCount; i++) {
+      let sched_txt = sample.schedule[i-1].content.split("：").pop();
+      sample.effect.push({
+        effect: `實際進度：本週已順利完成「${sched_txt}」的研讀或實作。整理了核心公式與程式碼，解決了碰到的問題，反思並記錄於自學成果中。`,
+        img: ""
+      });
+    }
+  }
+
+  applyData(sample);
+  toast(`已載入「${sample.meta.planName || ''}」完整範例資料！`);
+  goStep('basic');
+}
+
+function downloadSampleWord() {
+  const val = $('sampleSelect').value;
+  if (!val) {
+    toast("請先選擇一個計畫範例");
+    return;
+  }
+  const sample = BUILTIN_SAMPLES[val];
+  if (!sample) return;
+
+  const filename = sample.filename;
+  const path = `範例檔案/自主學習/${filename}`;
+  const link = document.createElement("a");
+  link.href = path;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 const STEPS=['basic','plan','schedule','effect','export'];
 function goStep(step){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
